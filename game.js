@@ -1,17 +1,19 @@
 // Phaser Game Setup
 window.onload = function () {
+  // Disable scroll wheel by hiding overflow
+  document.body.style.overflow = 'hidden';
+
   var config = {
       type: Phaser.AUTO,
       width: window.innerWidth,
       height: window.innerHeight,
-      backgroundColor: 0xf0f0f0,
+      backgroundColor: 0xffffff,
       scene: {
           preload: preload,
           create: create,
           update: update
       }
   };
-
   var game = new Phaser.Game(config);
 
   function preload() {
@@ -24,38 +26,78 @@ window.onload = function () {
     // Add the game board background
     this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'board').setScale(1); // Adjust scale as needed
 
-    // Top UI section
-    // Add "Inkoop" and "Verkoop"
-    var inkoopPositions = [50, 100, 150]; // X-positions for Inkoop circles
-    var verkoopPositions = [250, 300, 350]; // X-positions for Verkoop circles
+// Top UI section
+// Add "Inkoop" and "Verkoop" with green rectangles and bold text
+var inkoopPositions = [75, 138, 200]; // X-positions for Inkoop circles
+var verkoopPositions = [305, 368, 430]; // X-positions for Verkoop circles
 
-    inkoopPositions.forEach((xPos) => {
-        this.add.circle(xPos, 75, 20, 0xffffff).setStrokeStyle(2, 0x000000); // Inkoop circles
+// Function to draw rounded rectangles
+function drawRoundedRect(graphics, x, y, width, height, radius, fillColor) {
+    graphics.fillStyle(fillColor, 1);
+    graphics.fillRoundedRect(x, y, width, height, radius);
+    graphics.strokeRoundedRect(x, y, width, height, radius);
+}
+
+// Graphics object for rounded rectangles
+var graphics = this.add.graphics();
+graphics.lineStyle(0, 0x000000, 1); // Set border style
+
+// Add green rounded rectangles for Inkoop and Verkoop
+drawRoundedRect(graphics, 40, 35, 200, 80, 10, 0x90ee90); // Inkoop green rectangle
+drawRoundedRect(graphics, 270, 35, 200, 80, 10, 0x90ee90); // Verkoop green rectangle
+
+// Add "Inkoop" circles and label
+inkoopPositions.forEach((xPos) => {
+    this.add.circle(xPos, 75, 25, 0xffffff).setStrokeStyle(0, 0x000000); // Inkoop circles
+});
+this.add.text(100, 5, 'INKOOP', {
+    fontSize: '20px',
+    fontStyle: 'bold',
+    color: '#3B536F',
+    fontFamily: 'Arial',
+});
+
+// Add "Verkoop" circles and label
+verkoopPositions.forEach((xPos) => {
+    this.add.circle(xPos, 75, 25, 0xffffff).setStrokeStyle(0, 0x000000); // Verkoop circles
+});
+this.add.text(330, 5, 'VERKOOP', {
+    fontSize: '20px',
+    fontStyle: 'bold',
+    color: '#3B536F',
+    fontFamily: 'Arial',
+});
+
+drawRoundedRect(graphics, 500, 35, 150, 80, 10, 0xF8B93B); // Kas rectangle
+
+// Add text above "Kas" rectangle
+this.add.text(555, 5, 'KAS', {
+    fontSize: '16px',
+    color: '#3B536F',
+    fontFamily: 'Arial',
+    fontStyle: 'bold',
+});
+
+// Add "$500" text inside the Kas rectangle
+this.add.text(530, 50, '$500', {
+    fontSize: '40px',
+    color: '#000',
+    fontFamily: 'Arial',
+});
+
+// Add "Magazijn," "Products," and "Fiches"
+var labels = ['MAGAZIJN', 'PRODUCTS', 'FICHES'];
+var xOffset = 680;
+
+labels.forEach((label, index) => {
+    drawRoundedRect(graphics, xOffset + index * 180, 35, 150, 80, 10, 0xF8B93B);
+    this.add.text(xOffset + index * 180 + 30, 5, label, {
+        fontSize: '16px',
+        fontStyle: 'bold',
+        color: '#3B536F',
+        fontFamily: 'Arial',
     });
-
-    verkoopPositions.forEach((xPos) => {
-        this.add.circle(xPos, 75, 20, 0xffffff).setStrokeStyle(2, 0x000000); // Verkoop circles
-    });
-
-    this.add.text(60, 20, 'INKOOP', { fontSize: '20px', color: '#3B536F', fontFamily: 'Arial' });
-    this.add.text(260, 20, 'VERKOOP', { fontSize: '18px', color: '#3B536F', fontFamily: 'Arial' });
-
-    // Add "Kas"
-    this.add.rectangle(550, 50, 150, 80, 0xffff00).setStrokeStyle(2, 0x000000);
-    this.add.text(380, 40, '$500', { fontSize: '24px', color: '#000', fontFamily: 'Arial' });
-
-    // Add "Magazijn," "Products," and "Fiches"
-    var labels = ['Magazijn', 'Products', 'Fiches'];
-    var xOffset = 750;
-
-    labels.forEach((label, index) => {
-        this.add.rectangle(xOffset + index * 250, 50, 150, 80, 0xffffff).setStrokeStyle(2, 0x000000);
-        this.add.text(xOffset + index * 150 - 40, 40, label, {
-            fontSize: '16px',
-            color: '#000',
-            fontFamily: 'Arial'
-        });
-    });
+});
 
       // Add the game board
       this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'board').setScale(1); // Adjust scale as needed
