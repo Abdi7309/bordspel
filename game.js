@@ -17,11 +17,15 @@ window.onload = function () {
   var game = new Phaser.Game(config);
 
   function preload() {
-      // Load assets
-      this.load.image('board', '/images/board.png'); // Replace with actual path
-      this.load.image('start', '/images/start.png');
-      this.load.image('tile', '/images/tile.png');
-  }
+    // Load assets
+    this.load.image('board', '/images/board.png'); 
+    this.load.image('start', '/images/start.png');
+    
+    // Load individual tile images
+    for (let i = 1; i <= 14; i++) {
+        this.load.image(`tile${i}`, `/images/tile${i}.png`);
+    }
+}
   function create() {
     // Add the game board background
     this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'board').setScale(1); // Adjust scale as needed
@@ -104,36 +108,36 @@ labels.forEach((label, index) => {
 
       // Pathway coordinates for "Start" and tiles 1-14
       var tilePositions = [
-          { x: 100, y: 500, label: 'Start' },
-          { x: 200, y: 500, label: '1' },
-          { x: 300, y: 500, label: '2' },
-          { x: 400, y: 500, label: '3' },
-          { x: 500, y: 450, label: '4' },
-          { x: 600, y: 400, label: '5' },
-          { x: 700, y: 350, label: '6' },
-          { x: 800, y: 300, label: '7' },
-          { x: 900, y: 250, label: '8' },
-          { x: 1000, y: 250, label: '9' },
+          { x: 180, y: 320, label: 'Start' },
+          { x: 270, y: 390, label: '1' },
+          { x: 310, y: 515, label: '2' },
+          { x: 357, y: 630, label: '3' },
+          { x: 475, y: 647, label: '4' },
+          { x: 608, y: 646, label: '5' },
+          { x: 655, y: 550, label: '6' },
+          { x: 655, y: 420, label: '7' },
+          { x: 635, y: 290, label: '8' },
+          { x: 675, y: 180, label: '9' },
           { x: 1100, y: 300, label: '10' },
           { x: 1200, y: 350, label: '11' },
           { x: 1300, y: 400, label: '12' },
           { x: 1400, y: 450, label: '13' },
           { x: 1500, y: 500, label: '14' }
       ];
-
-      // Add "Start" and numbered tiles
-      tilePositions.forEach((tile) => {
-          if (tile.label === 'Start') {
-              this.add.image(tile.x, tile.y, 'start').setScale(0.5);
-          } else {
-              var tileSprite = this.add.image(tile.x, tile.y, 'tile').setScale(0.5);
-              this.add.text(tile.x - 10, tile.y - 10, tile.label, {
-                  fontSize: '18px',
-                  color: '#000',
-                  fontFamily: 'Arial'
-              });
-          }
-      });
+      tilePositions.forEach((tile, index) => {
+        if (tile.label === 'Start') {
+            this.add.image(tile.x, tile.y, 'start').setScale(1.2);
+        } else {
+            // Use the specific tile image for each tile
+            var tileKey = `tile${tile.label}`; // e.g., tile1, tile2, tile3, etc.
+            this.add.image(tile.x, tile.y, tileKey).setScale(1.2);
+            this.add.text(tile.x - 10, tile.y - 10, tile.label, {
+                fontSize: '18px',
+                color: '#000',
+                fontFamily: 'Arial'
+            });
+        }
+    });
 
       // Add the "Gebeurteniskaarten" box
       this.add.rectangle(window.innerWidth / 2, window.innerHeight / 2, 150, 100, 0xffffff).setStrokeStyle(2, 0x000000);
