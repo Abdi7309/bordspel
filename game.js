@@ -108,21 +108,21 @@ labels.forEach((label, index) => {
 
       // Pathway coordinates for "Start" and tiles 1-14
       var tilePositions = [
-          { x: 180, y: 320, label: 'Start', width: 140, height: 140 },
-          { x: 270, y: 390, label: '1',width: 140, height: 140 },
+          { x: 180, y: 320, label: 'Start', width: 160, height: 135 },
+          { x: 275, y: 390, label: '1',width: 140, height: 140 },
           { x: 310, y: 515, label: '2',width: 140, height: 140 }, 
           { x: 357, y: 630, label: '3' ,width: 140, height: 140 },
-          { x: 475, y: 647, label: '4',width: 150, height: 140 }, 
-          { x: 608, y: 646, label: '5',width: 150, height: 140 },
+          { x: 475, y: 647, label: '4',width: 160, height: 140 }, 
+          { x: 608, y: 646, label: '5',width: 160, height: 140 },
           { x: 655, y: 550, label: '6' ,width: 140, height: 140 },
           { x: 655, y: 420, label: '7' ,width: 140, height: 140 },
           { x: 635, y: 290, label: '8',width: 140, height: 140 },
-          { x: 675, y: 180, label: '9',width: 140, height: 140 },
-          { x: 800, y: 195, label: '10',width: 140, height: 140 },
+          { x: 675, y: 180, label: '9',width: 160, height: 140 },
+          { x: 800, y: 195, label: '10',width: 160, height: 140 },
           { x: 880, y: 280, label: '11' ,width: 140, height: 140 },
           { x: 905, y: 410, label: '12',width: 140, height: 140 },
-          { x: 990, y: 495, label: '13',width: 140, height: 140 },
-          { x: 1120, y: 510, label:'14',width: 140, height: 140 }, 
+          { x: 990, y: 495, label: '13',width: 160, height: 140 },
+          { x: 1120, y: 510, label:'14',width: 160, height: 140 }, 
       ];
       
       tilePositions.forEach((tile) => {
