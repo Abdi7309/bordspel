@@ -108,29 +108,35 @@ labels.forEach((label, index) => {
 
       // Pathway coordinates for "Start" and tiles 1-14
       var tilePositions = [
-          { x: 180, y: 320, label: 'Start' },
-          { x: 270, y: 390, label: '1' },
-          { x: 310, y: 515, label: '2' },
-          { x: 357, y: 630, label: '3' },
-          { x: 475, y: 647, label: '4' },
-          { x: 608, y: 646, label: '5' },
-          { x: 655, y: 550, label: '6' },
-          { x: 655, y: 420, label: '7' },
-          { x: 635, y: 290, label: '8' },
-          { x: 675, y: 180, label: '9' },
-          { x: 1100, y: 300, label: '10' },
-          { x: 1200, y: 350, label: '11' },
-          { x: 1300, y: 400, label: '12' },
-          { x: 1400, y: 450, label: '13' },
-          { x: 1500, y: 500, label: '14' }
+          { x: 180, y: 320, label: 'Start', width: 140, height: 140 },
+          { x: 270, y: 390, label: '1',width: 140, height: 140 },
+          { x: 310, y: 515, label: '2',width: 140, height: 140 }, 
+          { x: 357, y: 630, label: '3' ,width: 140, height: 140 },
+          { x: 475, y: 647, label: '4',width: 150, height: 140 }, 
+          { x: 608, y: 646, label: '5',width: 150, height: 140 },
+          { x: 655, y: 550, label: '6' ,width: 140, height: 140 },
+          { x: 655, y: 420, label: '7' ,width: 140, height: 140 },
+          { x: 635, y: 290, label: '8',width: 140, height: 140 },
+          { x: 675, y: 180, label: '9',width: 140, height: 140 },
+          { x: 800, y: 195, label: '10',width: 140, height: 140 },
+          { x: 880, y: 280, label: '11' ,width: 140, height: 140 },
+          { x: 905, y: 410, label: '12',width: 140, height: 140 },
+          { x: 990, y: 495, label: '13',width: 140, height: 140 },
+          { x: 1120, y: 510, label:'14',width: 140, height: 140 }, 
       ];
-      tilePositions.forEach((tile, index) => {
+      
+      tilePositions.forEach((tile) => {
         if (tile.label === 'Start') {
-            this.add.image(tile.x, tile.y, 'start').setScale(1.2);
+            // Set specific width and height for "Start"
+            const startImage = this.add.image(tile.x, tile.y, 'start');
+            startImage.setDisplaySize(tile.width, tile.height);
         } else {
             // Use the specific tile image for each tile
             var tileKey = `tile${tile.label}`; // e.g., tile1, tile2, tile3, etc.
-            this.add.image(tile.x, tile.y, tileKey).setScale(1.2);
+            const tileImage = this.add.image(tile.x, tile.y, tileKey);
+            tileImage.setDisplaySize(tile.width, tile.height);
+
+            // Add text for the tile label
             this.add.text(tile.x - 10, tile.y - 10, tile.label, {
                 fontSize: '18px',
                 color: '#000',
@@ -139,6 +145,7 @@ labels.forEach((label, index) => {
         }
     });
 
+    
       // Add the "Gebeurteniskaarten" box
       this.add.rectangle(window.innerWidth / 2, window.innerHeight / 2, 150, 100, 0xffffff).setStrokeStyle(2, 0x000000);
       this.add.text(window.innerWidth / 2 - 75, window.innerHeight / 2 - 15, 'Gebeurteniskaarten', {
