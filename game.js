@@ -47,8 +47,8 @@ var graphics = this.add.graphics();
 graphics.lineStyle(0, 0x000000, 1); // Set border style
 
 // Add green rounded rectangles for Inkoop and Verkoop
-drawRoundedRect(graphics, 40, 35, 200, 80, 0, 0x3e9c35); // Inkoop RGB(62, 156, 53) rectangle
-drawRoundedRect(graphics, 270, 35, 200, 80, 0, 0x3e9c35); // Verkoop RGB(62, 156, 53) rectangle
+drawRoundedRect(graphics, 40, 35, 200, 80, 0, 0x6ec48e); // Inkoop 
+drawRoundedRect(graphics, 270, 35, 200, 80, 0, 0x6ec48e); // Verkoop 
 
 // Add "Inkoop" circles and label
 inkoopPositions.forEach((xPos) => {
@@ -83,9 +83,9 @@ this.add.text(555, 5, 'KAS', {
 });
 
 // Add "$500" text inside the Kas rectangle
-this.add.text(530, 50, '$500', {
+this.add.text(528, 53, '$500', {
     fontSize: '40px',
-    color: '#000',
+    color: '#ffff',
     fontFamily: 'Arial',
 });
 
