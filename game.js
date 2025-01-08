@@ -47,8 +47,8 @@ var graphics = this.add.graphics();
 graphics.lineStyle(0, 0x000000, 1); // Set border style
 
 // Add green rounded rectangles for Inkoop and Verkoop
-drawRoundedRect(graphics, 40, 35, 200, 80, 10, 0x90ee90); // Inkoop green rectangle
-drawRoundedRect(graphics, 270, 35, 200, 80, 10, 0x90ee90); // Verkoop green rectangle
+drawRoundedRect(graphics, 40, 35, 200, 80, 0, 0x3e9c35); // Inkoop RGB(62, 156, 53) rectangle
+drawRoundedRect(graphics, 270, 35, 200, 80, 0, 0x3e9c35); // Verkoop RGB(62, 156, 53) rectangle
 
 // Add "Inkoop" circles and label
 inkoopPositions.forEach((xPos) => {
@@ -72,7 +72,7 @@ this.add.text(330, 5, 'VERKOOP', {
     fontFamily: 'Arial',
 });
 
-drawRoundedRect(graphics, 500, 35, 150, 80, 10, 0xF8B93B); // Kas rectangle
+drawRoundedRect(graphics, 500, 35, 150, 80, 0, 0x57A0D7); // Kas rectangle
 
 // Add text above "Kas" rectangle
 this.add.text(555, 5, 'KAS', {
@@ -94,7 +94,7 @@ var labels = ['MAGAZIJN', 'PRODUCTS', 'FICHES'];
 var xOffset = 680;
 
 labels.forEach((label, index) => {
-    drawRoundedRect(graphics, xOffset + index * 180, 35, 150, 80, 10, 0xF8B93B);
+    drawRoundedRect(graphics, xOffset + index * 180, 35, 150, 80, 0, 0x57A0D7);
     this.add.text(xOffset + index * 180 + 30, 5, label, {
         fontSize: '16px',
         fontStyle: 'bold',
@@ -108,21 +108,21 @@ labels.forEach((label, index) => {
 
       // Pathway coordinates for "Start" and tiles 1-14
       var tilePositions = [
-          { x: 180, y: 320, label: 'Start', width: 160, height: 135 },
-          { x: 275, y: 390, label: '1',width: 140, height: 140 },
-          { x: 310, y: 515, label: '2',width: 140, height: 140 }, 
-          { x: 357, y: 630, label: '3' ,width: 140, height: 140 },
-          { x: 475, y: 647, label: '4',width: 160, height: 140 }, 
-          { x: 608, y: 646, label: '5',width: 160, height: 140 },
-          { x: 655, y: 550, label: '6' ,width: 140, height: 140 },
-          { x: 655, y: 420, label: '7' ,width: 140, height: 140 },
-          { x: 635, y: 290, label: '8',width: 140, height: 140 },
-          { x: 675, y: 180, label: '9',width: 160, height: 140 },
-          { x: 800, y: 195, label: '10',width: 160, height: 140 },
-          { x: 880, y: 280, label: '11' ,width: 140, height: 140 },
-          { x: 905, y: 410, label: '12',width: 140, height: 140 },
-          { x: 990, y: 495, label: '13',width: 160, height: 140 },
-          { x: 1120, y: 510, label:'14',width: 160, height: 140 }, 
+          { x: 157, y: 320, label: 'Start', width: 140, height: 140 },
+          { x: 245, y: 390, label: '1',width: 140, height: 140 },
+          { x: 285, y: 515, label: '2',width: 140, height: 140 }, 
+          { x: 332, y: 630, label: '3' ,width: 140, height: 140 },
+          { x: 450, y: 647, label: '4',width: 140, height: 140 }, 
+          { x: 580, y: 646, label: '5',width: 140, height: 140 },
+          { x: 628, y: 555, label: '6' ,width: 140, height: 140 },
+          { x: 626, y: 425, label: '7' ,width: 140, height: 140 },
+          { x: 608, y: 297, label: '8',width: 140, height: 140 },
+          { x: 648, y: 190, label: '9',width: 140, height: 140 },
+          { x: 774, y: 203, label: '10',width: 140, height: 140 },
+          { x: 855, y: 285, label: '11' ,width: 140, height: 140 },
+          { x: 880, y: 417, label: '12',width: 140, height: 140 },
+          { x: 963, y: 498, label: '13',width: 140, height: 140 },
+          { x: 1097, y: 513, label:'14',width: 140, height: 140 }, 
       ];
       
       tilePositions.forEach((tile) => {
@@ -138,7 +138,7 @@ labels.forEach((label, index) => {
 
             // Add text for the tile label
             this.add.text(tile.x - 10, tile.y - 10, tile.label, {
-                fontSize: '18px',
+                fontSize: '1px',
                 color: '#000',
                 fontFamily: 'Arial'
             });
@@ -146,21 +146,32 @@ labels.forEach((label, index) => {
     });
 
     
-      // Add the "Gebeurteniskaarten" box
-      this.add.rectangle(window.innerWidth / 2, window.innerHeight / 2, 150, 100, 0xffffff).setStrokeStyle(2, 0x000000);
-      this.add.text(window.innerWidth / 2 - 75, window.innerHeight / 2 - 15, 'Gebeurteniskaarten', {
-          fontSize: '16px',
-          color: '#000',
-          fontFamily: 'Arial'
-      });
+// Define dynamic x and y positions for the "Gebeurteniskaarten" box
+const boxX = 750; // Custom x position
+const boxY = 390; // Custom y position
+
+// Add the "Gebeurteniskaarten" box with rounded corners and rgb(207, 209, 211) color, without borders
+var gebeurtenisBox = this.add.graphics();
+gebeurtenisBox.fillStyle(0xcfd1d3, 1); // rgb(207, 209, 211) color
+gebeurtenisBox.fillRoundedRect(boxX - 65, boxY - 95, 130, 190, 10);
+
+// Add text inside the box
+this.add.text(boxX - 54, boxY - 25, 'GEBEURTENIS-\n    KAARTEN', {
+    fontSize: '15px',
+    fontStyle: 'bold',
+    color: '#fff',
+    fontFamily: 'Arial'
+    
+});
+
 
       // Add Installations
       var installations = [
           { x: 150, y: 200, label: 'Installatie 1', asset: 'tile' },
-          { x: 150, y: 400, label: 'Installatie 2', asset: 'tile' },
-          { x: 400, y: 300, label: 'Installatie 3', asset: 'tile' },
-          { x: 750, y: 200, label: 'Installatie 4', asset: 'tile' },
-          { x: 900, y: 500, label: 'Installatie 5', asset: 'tile' }
+          { x: 150, y: 600, label: 'Installatie 2', asset: 'tile' },
+          { x: 470, y: 550, label: 'Installatie 3', asset: 'tile' },
+          { x: 1030, y: 200, label: 'Installatie 4', asset: 'tile' },
+          { x: 920, y: 600, label: 'Installatie 5', asset: 'tile' }
       ];
 
       installations.forEach((inst) => {
