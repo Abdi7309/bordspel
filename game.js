@@ -1,6 +1,5 @@
 // Phaser Game Setup
 window.onload = function () {
-  // Disable scroll wheel by hiding overflow
   document.body.style.overflow = 'hidden';
 
   var config = {
@@ -20,6 +19,12 @@ window.onload = function () {
     // Load assets
     this.load.image('board', '/images/board.png'); 
     this.load.image('start', '/images/start.png');
+    this.load.image('installatie1', '/images/installatie1.png'); 
+    this.load.image('installatie2', '/images/installatie2.png'); 
+    this.load.image('installatie3', '/images/installatie3.png'); 
+    this.load.image('installatie4', '/images/installatie4.png'); 
+    this.load.image('installatie5', '/images/installatie5.png'); 
+
     
     // Load individual tile images
     for (let i = 1; i <= 14; i++) {
@@ -167,16 +172,16 @@ this.add.text(boxX - 54, boxY - 25, 'GEBEURTENIS-\n    KAARTEN', {
 
       // Add Installations
       var installations = [
-          { x: 150, y: 200, label: 'Installatie 1', asset: 'tile' },
-          { x: 150, y: 600, label: 'Installatie 2', asset: 'tile' },
-          { x: 470, y: 550, label: 'Installatie 3', asset: 'tile' },
-          { x: 1030, y: 200, label: 'Installatie 4', asset: 'tile' },
-          { x: 920, y: 600, label: 'Installatie 5', asset: 'tile' }
+          { x: 150, y: 200, label: 'Installatie 1', asset: 'installatie1' }, // Ensure the correct asset key is used
+          { x: 150, y: 500, label: 'Installatie 2', asset: 'installatie2' },
+          { x: 470, y: 550, label: 'Installatie 3', asset: 'installatie3' },
+          { x: 1030, y: 200, label: 'Installatie 4', asset: 'installatie4'},
+          { x: 920, y: 600, label: 'Installatie 5', asset: 'installatie5' }
       ];
 
       installations.forEach((inst) => {
-          this.add.image(inst.x, inst.y, inst.asset).setScale(0.5);
-          this.add.text(inst.x - 50, inst.y + 50, inst.label, {
+          this.add.image(inst.x, inst.y, inst.asset).setScale(1.1);
+          this.add.text(inst.x - 50, inst.y + 105, inst.label, {
               fontSize: '18px',
               color: '#000'
           });
