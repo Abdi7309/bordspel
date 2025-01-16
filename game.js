@@ -186,6 +186,62 @@ this.add.text(boxX - 54, boxY - 25, 'GEBEURTENIS-\n    KAARTEN', {
               color: '#000'
           });
       });
+
+    // Add a #F8B93B rectangle with rounded corners on the right side of the screen
+    var rectX = window.innerWidth - 320; // Adjust X position as needed
+    var rectY = 10; // Start from the top of the screen
+    var rectWidth = 300;
+    var rectHeight = window.innerHeight - 30; // Span the entire height of the screen
+    var rectRadius = 10; // Adjust the radius for rounded corners
+
+    var rect = this.add.graphics();
+    rect.fillStyle(0xF8B93B, 1); // #F8B93B color
+    rect.fillRoundedRect(rectX, rectY, rectWidth, rectHeight, rectRadius);
+
+    // Add 5 circles on the top of the rectangle
+    var circleRadius = 25; // Match the size of "Inkoop" and "Verkoop" circles
+    var circleSpacing = 55;
+    for (var i = 0; i < 5; i++) {
+        var circleX = rectX + 40 + i * circleSpacing;
+        var circleY = rectY + circleRadius + 15;
+        this.add.circle(circleX, circleY, circleRadius, 0xffffff).setStrokeStyle(0, 0x000000);
+    }
+
+    // Add 3 rectangles on the top of the rectangle
+    var smallRectWidth = 45;
+    var smallRectHeight = 100;
+    var smallRectSpacing = 70; // Define the spacing between small rectangles
+    for (var j = 0; j < 3; j++) {
+        var smallRectX = rectX + 50 + j * smallRectSpacing; // Adjust X position for the additional rectangles
+        var smallRectY = rectY + 80; // Adjust Y position for the additional rectangles
+        var smallRect = this.add.graphics();
+        smallRect.fillStyle(0xffffff, 1);  
+        smallRect.fillRect(smallRectX, smallRectY, smallRectWidth, smallRectHeight);
+    }
+
+    // Add 2 rectangles on the top of the rectangle
+    var smallRectWidth = 45;
+    var smallRectHeight = 100;
+    var smallRectSpacing = 70;
+    for (var j = 0; j < 2; j++) {
+        var smallRectX = rectX + 90 + j * smallRectSpacing; // Adjust X position for the additional rectangles
+        var smallRectY = rectY + 190; // Adjust Y position for the additional rectangles
+        var smallRect = this.add.graphics();
+        smallRect.fillStyle(0xffffff, 1);  
+        smallRect.fillRect(smallRectX, smallRectY, smallRectWidth, smallRectHeight);
+    }
+
+    // Add 3 more big rectangles under each other
+    var bigRectWidth = 250;
+    var bigRectHeight = 120;
+    var bigRectSpacing = 130;
+    for (var k = 0; k < 3; k++) {
+        var bigRectX = rectX + 25;
+        var bigRectY = rectY + 305 + k * bigRectSpacing;
+        var bigRect = this.add.graphics();
+        bigRect.fillStyle(0xffffff, 1); 
+        bigRect.fillRect(bigRectX, bigRectY, bigRectWidth, bigRectHeight);
+    }
   }
 
   function update() {
