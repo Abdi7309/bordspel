@@ -1,6 +1,6 @@
-// Phaser Game Setup
 window.onload = function () {
   document.body.style.overflow = 'hidden';
+  document.body.style.margin = '1px'; 
 
   var config = {
       type: Phaser.AUTO,
@@ -16,46 +16,39 @@ window.onload = function () {
   var game = new Phaser.Game(config);
 
   function preload() {
-    // Load assets
-    this.load.image('board', '/images/board.png'); 
     this.load.image('start', '/images/start.png');
     this.load.image('installatie1', '/images/installatie1.png'); 
     this.load.image('installatie2', '/images/installatie2.png'); 
     this.load.image('installatie3', '/images/installatie3.png'); 
     this.load.image('installatie4', '/images/installatie4.png'); 
     this.load.image('installatie5', '/images/installatie5.png'); 
+    this.load.image('background', '/images/background.png'); 
+
 
     
-    // Load individual tile images
     for (let i = 1; i <= 14; i++) {
         this.load.image(`tile${i}`, `/images/tile${i}.png`);
     }
 }
   function create() {
-    // Add the game board background
-    this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'board').setScale(1); // Adjust scale as needed
+//"Inkoop" and "Verkoop" with green RECHTHOEK and bold text
+var inkoopPositions = [75, 138, 200]; 
+var verkoopPositions = [305, 368, 430]; 
 
-// Top UI section
-// Add "Inkoop" and "Verkoop" with green rectangles and bold text
-var inkoopPositions = [75, 138, 200]; // X-positions for Inkoop circles
-var verkoopPositions = [305, 368, 430]; // X-positions for Verkoop circles
-
-// Function to draw rounded rectangles
 function drawRoundedRect(graphics, x, y, width, height, radius, fillColor) {
     graphics.fillStyle(fillColor, 1);
     graphics.fillRoundedRect(x, y, width, height, radius);
     graphics.strokeRoundedRect(x, y, width, height, radius);
 }
 
-// Graphics object for rounded rectangles
 var graphics = this.add.graphics();
-graphics.lineStyle(0, 0x000000, 1); // Set border style
+graphics.lineStyle(0, 0x000000, 0); // Set border style
 
-// Add green rounded rectangles for Inkoop and Verkoop
+//groene rechtoek for Inkoop and Verkoop
 drawRoundedRect(graphics, 40, 35, 200, 80, 0, 0x6ec48e); // Inkoop 
 drawRoundedRect(graphics, 270, 35, 200, 80, 0, 0x6ec48e); // Verkoop 
 
-// Add "Inkoop" circles and label
+// "Inkoop" circles and text
 inkoopPositions.forEach((xPos) => {
     this.add.circle(xPos, 75, 25, 0xffffff).setStrokeStyle(0, 0x000000); // Inkoop circles
 });
@@ -66,7 +59,7 @@ this.add.text(100, 5, 'INKOOP', {
     fontFamily: 'Arial',
 });
 
-// Add "Verkoop" circles and label
+// "Verkoop" circles and text
 verkoopPositions.forEach((xPos) => {
     this.add.circle(xPos, 75, 25, 0xffffff).setStrokeStyle(0, 0x000000); // Verkoop circles
 });
@@ -77,9 +70,9 @@ this.add.text(330, 5, 'VERKOOP', {
     fontFamily: 'Arial',
 });
 
-drawRoundedRect(graphics, 500, 35, 150, 80, 0, 0x57A0D7); // Kas rectangle
+drawRoundedRect(graphics, 500, 35, 150, 80, 0, 0x57A0D7); // Kas erchthoek
 
-// Add text above "Kas" rectangle
+// text above "Kas" rectangle
 this.add.text(555, 5, 'KAS', {
     fontSize: '16px',
     color: '#3B536F',
@@ -87,31 +80,132 @@ this.add.text(555, 5, 'KAS', {
     fontStyle: 'bold',
 });
 
-// Add "$500" text inside the Kas rectangle
+// "$500" text in de Kas rechthoek
 this.add.text(528, 53, '$500', {
     fontSize: '40px',
     color: '#ffff',
     fontFamily: 'Arial',
 });
 
-// Add "Magazijn," "Products," and "Fiches"
 var labels = ['MAGAZIJN', 'PRODUCTS', 'FICHES'];
 var xOffset = 680;
 
+// Track toggle state for each button
+var toggles = {};
+
 labels.forEach((label, index) => {
-    drawRoundedRect(graphics, xOffset + index * 180, 35, 150, 80, 0, 0x57A0D7);
-    this.add.text(xOffset + index * 180 + 30, 5, label, {
+    var graphics = this.add.graphics();
+    graphics.fillStyle(0x57A0D7, 1);
+    graphics.fillRoundedRect(xOffset + index * 180, 35, 150, 80, 0,);
+
+    // text
+    var labelText = this.add.text(xOffset + index * 180 + 30, 5, label, {
         fontSize: '16px',
         fontStyle: 'bold',
         color: '#3B536F',
         fontFamily: 'Arial',
+    }).setInteractive({ useHandCursor: true });
+
+    // Initialize toggle state
+    toggles[label] = { isToggled: false, rect: null };
+
+    labelText.on('pointerdown', () => {
+        const toggle = toggles[label];
+        const rectWidth = 1500;
+        const rectHeight = 700;
+        const rectX = 765; 
+        const initialY = window.innerHeight + rectHeight / 2; 
+        const targetY = 400; 
+    
+        if (!toggle.isToggled) {
+            toggle.blurBackground = this.add.image(0, 0, 'background') // Replace 'background' with your background texture key
+                .setOrigin(0)
+                .setDepth(0.5) 
+                .setAlpha(1) 
+
+    
+            // Apply a blur shader or filter to the background image
+            const blurPipeline = this.plugins.get('rexBlurPipeline'); // Assuming RexPlugins or other blur plugin
+            toggle.blurBackground.setPipeline('rexBlurPipeline');
+    
+            // Add the rectangle on top of the blur
+            toggle.rect = this.add.graphics().setDepth(2); // Ensure rectangle is above the blur
+    
+            // Initial draw (off-screen)
+            toggle.rect.fillStyle(0xf5f5f5, 1); // Black color with full opacity
+            toggle.rect.fillRoundedRect(
+                rectX - rectWidth / 2,
+                initialY - rectHeight / 2,
+                rectWidth,
+                rectHeight,
+                20
+            );
+    
+            // Tween to move the rectangle on-screen
+            this.tweens.add({
+                targets: { y: initialY },
+                y: targetY,
+                duration: 500,
+                ease: 'Power2',
+                onUpdate: (tween, target) => {
+                    // Clear and redraw at the new position
+                    toggle.rect.clear();
+                    toggle.rect.fillStyle(0xf5f5f5, 1);
+                    toggle.rect.fillRoundedRect(
+                        rectX - rectWidth / 2,
+                        target.y - rectHeight / 2,
+                        rectWidth,
+                        rectHeight,
+                        20
+                    );
+                },
+            });
+    
+            toggle.isToggled = true;
+        } else {
+            // Toggle OFF: Remove the blur and rectangle
+            const currentY = targetY; // Start at the current position
+            const offScreenY = window.innerHeight + rectHeight / 2; // Off-screen position
+    
+            this.tweens.add({
+                targets: { y: currentY },
+                y: offScreenY,
+                duration: 500,
+                ease: 'Power2',
+                onUpdate: (tween, target) => {
+                    // Clear and redraw at the new position
+                    toggle.rect.clear();
+                    toggle.rect.fillStyle(0x000000, 1);
+                    toggle.rect.fillRoundedRect(
+                        rectX - rectWidth / 2,
+                        target.y - rectHeight / 2,
+                        rectWidth,
+                        rectHeight,
+                        20
+                    );
+                },
+                onComplete: () => {
+                    // Remove the rectangle and blurred background
+                    toggle.rect.destroy();
+                    toggle.rect = null;
+    
+                    toggle.blurBackground.destroy();
+                    toggle.blurBackground = null;
+                },
+            });
+    
+            toggle.isToggled = false;
+        }
     });
+    
+    
+    
+    
+    
+    
+    
 });
 
-      // Add the game board
-      this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'board').setScale(1); // Adjust scale as needed
-
-      // Pathway coordinates for "Start" and tiles 1-14
       var tilePositions = [
           { x: 157, y: 320, label: 'Start', width: 140, height: 140 },
           { x: 245, y: 390, label: '1',width: 140, height: 140 },
@@ -132,16 +226,13 @@ labels.forEach((label, index) => {
       
       tilePositions.forEach((tile) => {
         if (tile.label === 'Start') {
-            // Set specific width and height for "Start"
             const startImage = this.add.image(tile.x, tile.y, 'start');
             startImage.setDisplaySize(tile.width, tile.height);
         } else {
-            // Use the specific tile image for each tile
             var tileKey = `tile${tile.label}`; // e.g., tile1, tile2, tile3, etc.
             const tileImage = this.add.image(tile.x, tile.y, tileKey);
             tileImage.setDisplaySize(tile.width, tile.height);
 
-            // Add text for the tile label
             this.add.text(tile.x - 10, tile.y - 10, tile.label, {
                 fontSize: '1px',
                 color: '#000',
@@ -152,15 +243,14 @@ labels.forEach((label, index) => {
 
     
 // Define dynamic x and y positions for the "Gebeurteniskaarten" box
-const boxX = 750; // Custom x position
-const boxY = 390; // Custom y position
+const boxX = 750; 
+const boxY = 390; 
 
-// Add the "Gebeurteniskaarten" box with rounded corners and rgb(207, 209, 211) color, without borders
+
 var gebeurtenisBox = this.add.graphics();
-gebeurtenisBox.fillStyle(0xcfd1d3, 1); // rgb(207, 209, 211) color
+gebeurtenisBox.fillStyle(0xcfd1d3, 1); 
 gebeurtenisBox.fillRoundedRect(boxX - 65, boxY - 95, 130, 190, 10);
 
-// Add text inside the box
 this.add.text(boxX - 54, boxY - 25, 'GEBEURTENIS-\n    KAARTEN', {
     fontSize: '15px',
     fontStyle: 'bold',
@@ -170,9 +260,8 @@ this.add.text(boxX - 54, boxY - 25, 'GEBEURTENIS-\n    KAARTEN', {
 });
 
 
-      // Add Installations
       var installations = [
-          { x: 150, y: 200, label: 'Installatie 1', asset: 'installatie1' }, // Ensure the correct asset key is used
+          { x: 150, y: 200, label: 'Installatie 1', asset: 'installatie1' }, 
           { x: 150, y: 500, label: 'Installatie 2', asset: 'installatie2' },
           { x: 470, y: 550, label: 'Installatie 3', asset: 'installatie3' },
           { x: 1030, y: 200, label: 'Installatie 4', asset: 'installatie4'},
@@ -187,19 +276,19 @@ this.add.text(boxX - 54, boxY - 25, 'GEBEURTENIS-\n    KAARTEN', {
           });
       });
 
-    // Add a #F8B93B rectangle with rounded corners on the right side of the screen
-    var rectX = window.innerWidth - 320; // Adjust X position as needed
-    var rectY = 10; // Start from the top of the screen
+    //rectangle on the right side of the screen
+    var rectX = window.innerWidth - 310; 
+    var rectY = 10; 
     var rectWidth = 300;
-    var rectHeight = window.innerHeight - 30; // Span the entire height of the screen
-    var rectRadius = 10; // Adjust the radius for rounded corners
+    var rectHeight = window.innerHeight - 30; 
+    var rectRadius = 10; 
 
     var rect = this.add.graphics();
-    rect.fillStyle(0xF8B93B, 1); // #F8B93B color
+    rect.fillStyle(0xF8B93B, 1); 
     rect.fillRoundedRect(rectX, rectY, rectWidth, rectHeight, rectRadius);
 
-    // Add 5 circles on the top of the rectangle
-    var circleRadius = 25; // Match the size of "Inkoop" and "Verkoop" circles
+    // 5 circles on the top of that rectangle
+    var circleRadius = 25; 
     var circleSpacing = 55;
     for (var i = 0; i < 5; i++) {
         var circleX = rectX + 40 + i * circleSpacing;
@@ -207,31 +296,31 @@ this.add.text(boxX - 54, boxY - 25, 'GEBEURTENIS-\n    KAARTEN', {
         this.add.circle(circleX, circleY, circleRadius, 0xffffff).setStrokeStyle(0, 0x000000);
     }
 
-    // Add 3 rectangles on the top of the rectangle
+    // 3 rectangles on the top of the rectangle
     var smallRectWidth = 45;
     var smallRectHeight = 100;
-    var smallRectSpacing = 70; // Define the spacing between small rectangles
+    var smallRectSpacing = 70; 
     for (var j = 0; j < 3; j++) {
-        var smallRectX = rectX + 50 + j * smallRectSpacing; // Adjust X position for the additional rectangles
-        var smallRectY = rectY + 80; // Adjust Y position for the additional rectangles
+        var smallRectX = rectX + 50 + j * smallRectSpacing; 
+        var smallRectY = rectY + 80; 
         var smallRect = this.add.graphics();
         smallRect.fillStyle(0xffffff, 1);  
         smallRect.fillRect(smallRectX, smallRectY, smallRectWidth, smallRectHeight);
     }
 
-    // Add 2 rectangles on the top of the rectangle
+    // 2 rectangles on the top of the rectangle
     var smallRectWidth = 45;
     var smallRectHeight = 100;
     var smallRectSpacing = 70;
     for (var j = 0; j < 2; j++) {
-        var smallRectX = rectX + 90 + j * smallRectSpacing; // Adjust X position for the additional rectangles
-        var smallRectY = rectY + 190; // Adjust Y position for the additional rectangles
+        var smallRectX = rectX + 90 + j * smallRectSpacing; 
+        var smallRectY = rectY + 190; 
         var smallRect = this.add.graphics();
         smallRect.fillStyle(0xffffff, 1);  
         smallRect.fillRect(smallRectX, smallRectY, smallRectWidth, smallRectHeight);
     }
 
-    // Add 3 more big rectangles under each other
+    // 3 more big rectangles under each other
     var bigRectWidth = 250;
     var bigRectHeight = 120;
     var bigRectSpacing = 130;
